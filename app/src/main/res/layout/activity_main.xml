@@ -20,6 +20,6 @@
         app:inactive_item_color="#808080"
         app:layout_behavior="com.luseen.spacenavigation.SpaceNavigationViewBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:space_background_color="#ffffff" />
+        app:space_background_color="#000000" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

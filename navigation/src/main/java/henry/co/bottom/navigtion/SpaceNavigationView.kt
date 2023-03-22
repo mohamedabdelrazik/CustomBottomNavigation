@@ -366,7 +366,15 @@ class SpaceNavigationView @JvmOverloads constructor(
         /**
          * Adding view to centreContent
          */
-        centreContent!!.addView(centreButton, fabParams)
+        val centre2ContentParams =
+            RelativeLayout.LayoutParams(centreContentWight, spaceNavigationHeight)
+        centre2ContentParams.addRule(RelativeLayout.CENTER_HORIZONTAL)
+        centre2ContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val textAndIconContainer =
+            inflater.inflate(R.layout.center_item_view, this, false) as RelativeLayout
+        textAndIconContainer.layoutParams = centre2ContentParams
+        centreContent!!.addView(textAndIconContainer, centre2ContentParams)
 
         /**
          * Adding views to mainContent
@@ -421,12 +429,11 @@ class SpaceNavigationView @JvmOverloads constructor(
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         for (i in spaceItems.indices) {
-            val targetWidth: Int
 
-            if (spaceItems.size > MIN_SPACE_ITEM_SIZE) {
-                targetWidth = contentWidth / 2
+            val targetWidth: Int = if (spaceItems.size > MIN_SPACE_ITEM_SIZE) {
+                contentWidth / 2
             } else {
-                targetWidth = contentWidth
+                contentWidth
             }
 
             val textAndIconContainerParams = RelativeLayout.LayoutParams(
@@ -1170,7 +1177,7 @@ class SpaceNavigationView @JvmOverloads constructor(
 
         private val NOT_DEFINED = -777 //random number, not - 1 because it is Color.WHITE
 
-        private val MAX_SPACE_ITEM_SIZE = 4
+        private val MAX_SPACE_ITEM_SIZE = 5
 
         private val MIN_SPACE_ITEM_SIZE = 2
     }
