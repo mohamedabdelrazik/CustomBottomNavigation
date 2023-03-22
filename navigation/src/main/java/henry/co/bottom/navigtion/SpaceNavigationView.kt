@@ -45,7 +45,7 @@ class SpaceNavigationView @JvmOverloads constructor(
     private var spaceOnClickListener: SpaceOnClickListener? = null
     private var spaceOnLongClickListener: SpaceOnLongClickListener? = null
     private var savedInstanceState: Bundle? = null
-    private var centreButton: CentreButton? = null
+//    private var centreButton: CentreButton? = null
     private var centreBackgroundView: RelativeLayout? = null
     private var leftContent: LinearLayout? = null
     private var rightContent: LinearLayout? = null
@@ -283,35 +283,35 @@ class SpaceNavigationView @JvmOverloads constructor(
 
         centreContent = buildBezierView()
 
-        centreButton = CentreButton(context)
-
-        if (centreButtonId != NOT_DEFINED) {
-            centreButton!!.id = centreButtonId
-        }
-
-        centreButton!!.size = FloatingActionButton.SIZE_NORMAL
-        centreButton!!.useCompatPadding = false
-        centreButton!!.rippleColor = centreButtonRippleColor
-        centreButton!!.backgroundTintList = ColorStateList.valueOf(centreButtonColor)
-        centreButton!!.setImageResource(centreButtonIcon)
-
-        if (isCentreButtonIconColorFilterEnabled || isCentreButtonSelectable)
-            centreButton!!.drawable.setColorFilter(
-                inActiveCentreButtonIconColor
-            )
-
-        centreButton!!.setOnClickListener {
-            if (spaceOnClickListener != null)
-                spaceOnClickListener!!.onCentreButtonClick()
-            if (isCentreButtonSelectable)
-                updateSpaceItems(-1)
-        }
-        centreButton!!.setOnLongClickListener {
-            if (spaceOnLongClickListener != null)
-                spaceOnLongClickListener!!.onCentreButtonLongClick()
-
-            true
-        }
+//        centreButton = CentreButton(context)
+//
+//        if (centreButtonId != NOT_DEFINED) {
+//            centreButton!!.id = centreButtonId
+//        }
+//
+//        centreButton!!.size = FloatingActionButton.SIZE_NORMAL
+//        centreButton!!.useCompatPadding = false
+//        centreButton!!.rippleColor = centreButtonRippleColor
+//        centreButton!!.backgroundTintList = ColorStateList.valueOf(centreButtonColor)
+//        centreButton!!.setImageResource(centreButtonIcon)
+//
+//        if (isCentreButtonIconColorFilterEnabled || isCentreButtonSelectable)
+//            centreButton!!.drawable.setColorFilter(
+//                inActiveCentreButtonIconColor
+//            )
+//
+//        centreButton!!.setOnClickListener {
+//            if (spaceOnClickListener != null)
+//                spaceOnClickListener!!.onCentreButtonClick()
+//            if (isCentreButtonSelectable)
+//                updateSpaceItems(-1)
+//        }
+//        centreButton!!.setOnLongClickListener {
+//            if (spaceOnLongClickListener != null)
+//                spaceOnLongClickListener!!.onCentreButtonLongClick()
+//
+//            true
+//        }
 
         /**
          * Set fab layout params
@@ -558,34 +558,34 @@ class SpaceNavigationView @JvmOverloads constructor(
             /**
              * Selects the centre button as current
              */
-            if (selectedIndex == -1) {
-                if (centreButton != null) {
-                    centreButton!!.drawable.setColorFilter(
-                        activeCentreButtonIconColor
-                    )
-
-                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
-                        centreButton!!.backgroundTintList =
-                            ColorStateList.valueOf(activeCentreButtonBackgroundColor)
-                    }
-                }
-            }
+//            if (selectedIndex == -1) {
+//                if (centreButton != null) {
+//                    centreButton!!.drawable.setColorFilter(
+//                        activeCentreButtonIconColor
+//                    )
+//
+//                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
+//                        centreButton!!.backgroundTintList =
+//                            ColorStateList.valueOf(activeCentreButtonBackgroundColor)
+//                    }
+//                }
+//            }
 
             /**
              * Removes selection from centre button
              */
-            if (currentSelectedItem == -1) {
-                if (centreButton != null) {
-                    centreButton!!.drawable.setColorFilter(
-                        inActiveCentreButtonIconColor
-                    )
-
-                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
-                        centreButton!!.backgroundTintList =
-                            ColorStateList.valueOf(centreButtonColor)
-                    }
-                }
-            }
+//            if (currentSelectedItem == -1) {
+//                if (centreButton != null) {
+//                    centreButton!!.drawable.setColorFilter(
+//                        inActiveCentreButtonIconColor
+//                    )
+//
+//                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
+//                        centreButton!!.backgroundTintList =
+//                            ColorStateList.valueOf(centreButtonColor)
+//                    }
+//                }
+//            }
         }
 
         /**
@@ -700,7 +700,7 @@ class SpaceNavigationView @JvmOverloads constructor(
 
             if (restoredBundle.containsKey(CENTRE_BUTTON_ICON_KEY)) {
                 centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_ICON_KEY)
-                centreButton!!.setImageResource(centreButtonIcon)
+//                centreButton!!.setImageResource(centreButtonIcon)
             }
 
             if (restoredBundle.containsKey(SPACE_BACKGROUND_COLOR_KEY)) {
@@ -1061,15 +1061,15 @@ class SpaceNavigationView @JvmOverloads constructor(
      * @param icon Target icon to change
      */
     fun changeCenterButtonIcon(icon: Int) {
-        if (centreButton == null) {
-            Log.e(
-                TAG,
-                "You should call setCentreButtonIcon() instead, " + "changeCenterButtonIcon works if space navigation already set up"
-            )
-        } else {
-            centreButton!!.setImageResource(icon)
-            centreButtonIcon = icon
-        }
+//        if (centreButton == null) {
+//            Log.e(
+//                TAG,
+//                "You should call setCentreButtonIcon() instead, " + "changeCenterButtonIcon works if space navigation already set up"
+//            )
+//        } else {
+//            centreButton!!.setImageResource(icon)
+//            centreButtonIcon = icon
+//        }
     }
 
     /**
