@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:id="@+id/center_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/space_icon"
+            android:src="@drawable/ic_hungary"
+            android:layout_width="@dimen/space_item_center_size"
+            android:layout_height="@dimen/space_item_center_size" />
+
+<!--        <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--            android:id="@+id/space_icon"-->
+<!--            android:layout_width="@dimen/space_item_center_size"-->
+<!--            android:layout_height="@dimen/space_item_center_size"-->
+<!--            android:contentDescription="@string/app_name"-->
+<!--            app:maxImageSize="30dp"-->
+<!--            app:tint="#ffff"-->
+<!--            app:srcCompat="@drawable/ic_hungary"-->
+<!--            app:rippleColor="#F45F38"-->
+<!--            android:tintMode="multiply" />-->
+
+        <TextView
+            android:id="@+id/space_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:layout_marginTop="4dp"
+            android:textColor="#fff"
+            android:textSize="10sp"
+            android:text="Label One" />
+    </LinearLayout>
+
+</RelativeLayout>
