@@ -35,31 +35,31 @@ class MainActivity : AppCompatActivity() {
         spaceNavigationView.setCentreButtonSelectable(true)
 
         spaceNavigationView.addMiddleItem(
-            icon = R.drawable.ic_hungary,
+            icon = R.drawable.near_me,
             text =  getStringRes(R.string.today)
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.today),
-                R.drawable.ic_favor_disable
+                R.drawable.near_me
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.favour),
-                R.drawable.ic_favor_disable
+                R.drawable.near_me
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.cards),
-                R.drawable.ic_favor_disable
+                R.drawable.near_me
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.account),
-                R.drawable.ic_favor_disable
+                R.drawable.near_me
             )
         )
 
