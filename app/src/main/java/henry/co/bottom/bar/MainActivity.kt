@@ -33,6 +33,11 @@ class MainActivity : AppCompatActivity() {
     private fun initBottomNavigation(savedInstanceState: Bundle?) {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState)
         spaceNavigationView.setCentreButtonSelectable(true)
+
+        spaceNavigationView.addMiddleItem(
+            icon = R.drawable.ic_hungary,
+            text =  getStringRes(R.string.today)
+        )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.today),
@@ -57,35 +62,10 @@ class MainActivity : AppCompatActivity() {
                 R.drawable.ic_favor_disable
             )
         )
+
         spaceNavigationView.setSpaceOnClickListener(object : SpaceOnClickListener {
             override fun onCentreButtonClick() {
-                Dexter.withActivity(this@MainActivity)
-                    .withPermissions(
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                        ,Manifest.permission.ACCESS_FINE_LOCATION)
-
-                    .withListener(object: MultiplePermissionsListener {
-                        override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-                            report?.let {
-                                if(report.areAllPermissionsGranted()){
-                                    toast("OK")
-                                }
-
-                            }
-                        }
-
-                        override fun onPermissionRationaleShouldBeShown(
-                            permissions: MutableList<PermissionRequest>?,
-                            token: PermissionToken?
-                        ) {
-                            token?.continuePermissionRequest()
-                        }
-
-                    })
-                    .withErrorListener {
-                        toast(it.name)
-                    }
-                    .check()
+                toast("123456")
             }
 
             override fun onItemClick(itemIndex: Int, itemName: String) {
@@ -96,11 +76,10 @@ class MainActivity : AppCompatActivity() {
 
             }
         })
-        spaceNavigationView.setCentreButtonSelected()
     }
 }
 
 fun Context.getStringRes(@StringRes id: Int) = resources.getString(id)
 
-fun Context?.toast(text: CharSequence, duration: Int = Toast.LENGTH_LONG) =
+fun Context?.toast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) =
     this?.let { Toast.makeText(it, text, duration).show() }

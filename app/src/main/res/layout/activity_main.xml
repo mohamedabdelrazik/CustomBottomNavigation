@@ -11,15 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
-        app:active_centre_button_background_color="@color/colorAccent"
-        app:active_centre_button_icon_color="#ffffff"
         app:active_item_color="@color/colorAccent"
-        app:centre_button_color="@color/colorAccent"
-        app:centre_button_icon="@drawable/ic_my_location"
-        app:inactive_centre_button_icon_color="#ffffff"
         app:inactive_item_color="#808080"
         app:layout_behavior="com.luseen.spacenavigation.SpaceNavigationViewBehavior"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:space_background_color="#000000" />
+        app:space_background_color="#ffff" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

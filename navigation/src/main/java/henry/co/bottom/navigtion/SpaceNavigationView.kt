@@ -1,8 +1,6 @@
 package henry.co.bottom.navigtion
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.AttributeSet
@@ -15,15 +13,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-
 import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.core.content.ContextCompat
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-
-import java.util.ArrayList
-import java.util.HashMap
 
 class SpaceNavigationView @JvmOverloads constructor(
     context: Context,
@@ -45,13 +37,17 @@ class SpaceNavigationView @JvmOverloads constructor(
     private var spaceOnClickListener: SpaceOnClickListener? = null
     private var spaceOnLongClickListener: SpaceOnLongClickListener? = null
     private var savedInstanceState: Bundle? = null
-//    private var centreButton: CentreButton? = null
     private var centreBackgroundView: RelativeLayout? = null
     private var leftContent: LinearLayout? = null
     private var rightContent: LinearLayout? = null
+    private var middleContent: RelativeLayout? = null
     private var centreContent: BezierView? = null
     private var customFont: Typeface? = null
     private var spaceItemIconSize = NOT_DEFINED
+
+    private var activeMiddleTextColor = NOT_DEFINED
+    private var inActiveMiddleTextColor = NOT_DEFINED
+
 
     private var spaceItemIconOnlySize = NOT_DEFINED
 
@@ -61,21 +57,9 @@ class SpaceNavigationView @JvmOverloads constructor(
 
     private var centreButtonId = NOT_DEFINED
 
-    private var centreButtonColor = NOT_DEFINED
-
-    private var activeCentreButtonIconColor = NOT_DEFINED
-
-    private var inActiveCentreButtonIconColor = NOT_DEFINED
-
-    private var activeCentreButtonBackgroundColor = NOT_DEFINED
-
-    private var centreButtonIcon = NOT_DEFINED
-
     private var activeSpaceItemColor = NOT_DEFINED
 
     private var inActiveSpaceItemColor = NOT_DEFINED
-
-    private var centreButtonRippleColor = NOT_DEFINED
 
     private var currentSelectedItem = 0
 
@@ -128,10 +112,6 @@ class SpaceNavigationView @JvmOverloads constructor(
             spaceBackgroundColor = typedArray.getColor(
                 R.styleable.SpaceNavigationView_space_background_color,
                 ContextCompat.getColor(context, R.color.space_default_color))
-            centreButtonColor = typedArray.getColor(
-                R.styleable.SpaceNavigationView_centre_button_color,
-                ContextCompat.getColor(context, R.color.centre_button_color)
-            )
             activeSpaceItemColor = typedArray.getColor(
                 R.styleable.SpaceNavigationView_active_item_color,
                 ContextCompat.getColor(context, R.color.space_white)
@@ -140,25 +120,10 @@ class SpaceNavigationView @JvmOverloads constructor(
                 R.styleable.SpaceNavigationView_inactive_item_color,
                 ContextCompat.getColor(context, R.color.default_inactive_item_color)
             )
-            centreButtonIcon = typedArray.getResourceId(
-                R.styleable.SpaceNavigationView_centre_button_icon,
-                R.drawable.near_me
-            )
             isCentrePartLinear =
                 typedArray.getBoolean(R.styleable.SpaceNavigationView_centre_part_linear, false)
-            activeCentreButtonIconColor = typedArray.getColor(
-                R.styleable.SpaceNavigationView_active_centre_button_icon_color,
-                ContextCompat.getColor(context, R.color.space_white)
-            )
-            inActiveCentreButtonIconColor = typedArray.getColor(
-                R.styleable.SpaceNavigationView_inactive_centre_button_icon_color,
-                ContextCompat.getColor(context, R.color.default_inactive_item_color)
-            )
-            activeCentreButtonBackgroundColor = typedArray.getColor(
-                R.styleable.SpaceNavigationView_active_centre_button_background_color,
-                ContextCompat.getColor(context, R.color.centre_button_color)
-            )
-
+            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            middleContent = inflater.inflate(R.layout.center_item_view, this, false) as RelativeLayout
             typedArray.recycle()
         }
     }
@@ -171,12 +136,6 @@ class SpaceNavigationView @JvmOverloads constructor(
          */
         if (spaceBackgroundColor == NOT_DEFINED)
             spaceBackgroundColor = ContextCompat.getColor(context, R.color.space_default_color)
-
-        if (centreButtonColor == NOT_DEFINED)
-            centreButtonColor = ContextCompat.getColor(context, R.color.centre_button_color)
-
-        if (centreButtonIcon == NOT_DEFINED)
-            centreButtonIcon = R.drawable.near_me
 
         if (activeSpaceItemColor == NOT_DEFINED)
             activeSpaceItemColor = ContextCompat.getColor(context, R.color.space_white)
@@ -194,17 +153,6 @@ class SpaceNavigationView @JvmOverloads constructor(
         if (spaceItemIconOnlySize == NOT_DEFINED)
             spaceItemIconOnlySize =
                 resources.getDimension(R.dimen.space_item_icon_only_size).toInt()
-
-        if (centreButtonRippleColor == NOT_DEFINED)
-            centreButtonRippleColor =
-                ContextCompat.getColor(context, R.color.colorBackgroundHighlightWhite)
-
-        if (activeCentreButtonIconColor == NOT_DEFINED)
-            activeCentreButtonIconColor = ContextCompat.getColor(context, R.color.space_white)
-
-        if (inActiveCentreButtonIconColor == NOT_DEFINED)
-            inActiveCentreButtonIconColor =
-                ContextCompat.getColor(context, R.color.default_inactive_item_color)
 
         /**
          * Set main layout size and color
@@ -277,42 +225,20 @@ class SpaceNavigationView @JvmOverloads constructor(
 
         val mainContent = RelativeLayout(context)
         centreBackgroundView = RelativeLayout(context)
+        centreBackgroundView?.elevation = 25f
 
         leftContent = LinearLayout(context)
+        leftContent?.elevation = 25f
         rightContent = LinearLayout(context)
+        rightContent?.elevation = 25f
 
         centreContent = buildBezierView()
+        centreContent?.elevation = 25f
 
-//        centreButton = CentreButton(context)
-//
+
 //        if (centreButtonId != NOT_DEFINED) {
-//            centreButton!!.id = centreButtonId
+//            middleContent!!.id = centreButtonId
 //        }
-//
-//        centreButton!!.size = FloatingActionButton.SIZE_NORMAL
-//        centreButton!!.useCompatPadding = false
-//        centreButton!!.rippleColor = centreButtonRippleColor
-//        centreButton!!.backgroundTintList = ColorStateList.valueOf(centreButtonColor)
-//        centreButton!!.setImageResource(centreButtonIcon)
-//
-//        if (isCentreButtonIconColorFilterEnabled || isCentreButtonSelectable)
-//            centreButton!!.drawable.setColorFilter(
-//                inActiveCentreButtonIconColor
-//            )
-//
-//        centreButton!!.setOnClickListener {
-//            if (spaceOnClickListener != null)
-//                spaceOnClickListener!!.onCentreButtonClick()
-//            if (isCentreButtonSelectable)
-//                updateSpaceItems(-1)
-//        }
-//        centreButton!!.setOnLongClickListener {
-//            if (spaceOnLongClickListener != null)
-//                spaceOnLongClickListener!!.onCentreButtonLongClick()
-//
-//            true
-//        }
-
         /**
          * Set fab layout params
          */
@@ -368,13 +294,16 @@ class SpaceNavigationView @JvmOverloads constructor(
          */
         val centre2ContentParams =
             RelativeLayout.LayoutParams(centreContentWight, spaceNavigationHeight)
-        centre2ContentParams.addRule(RelativeLayout.CENTER_HORIZONTAL)
+        centre2ContentParams.addRule(RelativeLayout.CENTER_IN_PARENT)
         centre2ContentParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val textAndIconContainer =
-            inflater.inflate(R.layout.center_item_view, this, false) as RelativeLayout
-        textAndIconContainer.layoutParams = centre2ContentParams
-        centreContent!!.addView(textAndIconContainer, centre2ContentParams)
+        middleContent!!.layoutParams = centre2ContentParams
+        middleContent!!.elevation = 30f
+        middleContent!!.setOnClickListener {
+            if (spaceOnClickListener != null)
+                spaceOnClickListener!!.onCentreButtonClick()
+//            if (isCentreButtonSelectable) updateSpaceItems(-1)
+        }
+        addView(middleContent, centre2ContentParams)
 
         /**
          * Adding views to mainContent
@@ -558,34 +487,22 @@ class SpaceNavigationView @JvmOverloads constructor(
             /**
              * Selects the centre button as current
              */
-//            if (selectedIndex == -1) {
-//                if (centreButton != null) {
-//                    centreButton!!.drawable.setColorFilter(
-//                        activeCentreButtonIconColor
-//                    )
-//
-//                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
-//                        centreButton!!.backgroundTintList =
-//                            ColorStateList.valueOf(activeCentreButtonBackgroundColor)
-//                    }
-//                }
-//            }
+            if (selectedIndex == -1) {
+                if (middleContent != null) {
+                    val tv = middleContent?.findViewById<View>(R.id.center_space_text) as TextView
+                    tv.setTextColor(activeSpaceItemColor)
+                }
+            }
 
             /**
              * Removes selection from centre button
              */
-//            if (currentSelectedItem == -1) {
-//                if (centreButton != null) {
-//                    centreButton!!.drawable.setColorFilter(
-//                        inActiveCentreButtonIconColor
-//                    )
-//
-//                    if (activeCentreButtonBackgroundColor != NOT_DEFINED) {
-//                        centreButton!!.backgroundTintList =
-//                            ColorStateList.valueOf(centreButtonColor)
-//                    }
-//                }
-//            }
+            if (currentSelectedItem == -1) {
+                if (middleContent != null) {
+                    val tv = middleContent?.findViewById<View>(R.id.center_space_text) as TextView
+                    tv.setTextColor(inActiveSpaceItemColor)
+                }
+            }
         }
 
         /**
@@ -698,10 +615,10 @@ class SpaceNavigationView @JvmOverloads constructor(
                 }
             }
 
-            if (restoredBundle.containsKey(CENTRE_BUTTON_ICON_KEY)) {
-                centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_ICON_KEY)
+//            if (restoredBundle.containsKey(CENTRE_BUTTON_ICON_KEY)) {
+//                centreButtonIcon = restoredBundle.getInt(CENTRE_BUTTON_ICON_KEY)
 //                centreButton!!.setImageResource(centreButtonIcon)
-            }
+//            }
 
             if (restoredBundle.containsKey(SPACE_BACKGROUND_COLOR_KEY)) {
                 val backgroundColor = restoredBundle.getInt(SPACE_BACKGROUND_COLOR_KEY)
@@ -756,7 +673,7 @@ class SpaceNavigationView @JvmOverloads constructor(
      */
     fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(CURRENT_SELECTED_ITEM_BUNDLE_KEY, currentSelectedItem)
-        outState.putInt(CENTRE_BUTTON_ICON_KEY, centreButtonIcon)
+//        outState.putInt(CENTRE_BUTTON_ICON_KEY, centreButtonIcon)
         outState.putInt(SPACE_BACKGROUND_COLOR_KEY, spaceBackgroundColor)
         outState.putBoolean(BADGE_FULL_TEXT_KEY, shouldShowBadgeWithNinePlus)
         outState.putFloat(VISIBILITY, this.translationY)
@@ -776,9 +693,9 @@ class SpaceNavigationView @JvmOverloads constructor(
      *
      * @param centreButtonColor target color
      */
-    fun setCentreButtonColor(@ColorInt centreButtonColor: Int) {
-        this.centreButtonColor = centreButtonColor
-    }
+//    fun setCentreButtonColor(@ColorInt centreButtonColor: Int) {
+//        this.centreButtonColor = centreButtonColor
+//    }
 
     /**
      * Set main background color
@@ -794,18 +711,10 @@ class SpaceNavigationView @JvmOverloads constructor(
      *
      * @param centreButtonIcon target icon
      */
-    fun setCentreButtonIcon(centreButtonIcon: Int) {
-        this.centreButtonIcon = centreButtonIcon
-    }
+//    fun setCentreButtonIcon(centreButtonIcon: Int) {
+//        this.centreButtonIcon = centreButtonIcon
+//    }
 
-    /**
-     * Set active centre button color
-     *
-     * @param activeCentreButtonBackgroundColor color to change
-     */
-    fun setActiveCentreButtonBackgroundColor(@ColorInt activeCentreButtonBackgroundColor: Int) {
-        this.activeCentreButtonBackgroundColor = activeCentreButtonBackgroundColor
-    }
 
     /**
      * Set active item text color
@@ -857,9 +766,9 @@ class SpaceNavigationView @JvmOverloads constructor(
      *
      * @param centreButtonRippleColor Target color
      */
-    fun setCentreButtonRippleColor(centreButtonRippleColor: Int) {
-        this.centreButtonRippleColor = centreButtonRippleColor
-    }
+//    fun setCentreButtonRippleColor(centreButtonRippleColor: Int) {
+//        this.centreButtonRippleColor = centreButtonRippleColor
+//    }
 
     /**
      * Show only text in item
@@ -889,6 +798,16 @@ class SpaceNavigationView @JvmOverloads constructor(
      */
     fun addSpaceItem(spaceItem: SpaceItem) {
         spaceItems.add(spaceItem)
+    }
+
+    fun addMiddleItem(icon : Int , text : String){
+        val image =
+            middleContent?.findViewById<View>(R.id.center_space_icon) as ImageView
+        val tv =
+            middleContent?.findViewById<View>(R.id.center_space_text) as TextView
+        image.setImageResource(icon)
+        tv.text = text
+        tv.setTextColor(inActiveSpaceItemColor)
     }
 
     /**
@@ -1143,7 +1062,7 @@ class SpaceNavigationView @JvmOverloads constructor(
      * @param color target color
      */
     fun setActiveCentreButtonIconColor(@ColorInt color: Int) {
-        activeCentreButtonIconColor = color
+        activeMiddleTextColor = color
     }
 
     /**
@@ -1152,7 +1071,7 @@ class SpaceNavigationView @JvmOverloads constructor(
      * @param color target color
      */
     fun setInActiveCentreButtonIconColor(@ColorInt color: Int) {
-        inActiveCentreButtonIconColor = color
+        inActiveMiddleTextColor = color
     }
 
     companion object {
@@ -1164,10 +1083,6 @@ class SpaceNavigationView @JvmOverloads constructor(
         private val BADGES_ITEM_BUNDLE_KEY = "badgeItem"
 
         private val CHANGED_ICON_AND_TEXT_BUNDLE_KEY = "changedIconAndText"
-
-        private val CENTRE_BUTTON_ICON_KEY = "centreButtonIconKey"
-
-        private val CENTRE_BUTTON_COLOR_KEY = "centreButtonColorKey"
 
         private val SPACE_BACKGROUND_COLOR_KEY = "backgroundColorKey"
 
