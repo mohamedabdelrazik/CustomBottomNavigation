@@ -383,7 +383,7 @@ class SpaceNavigationView @JvmOverloads constructor(
             val spaceItemText = textAndIconContainer.findViewById<View>(R.id.space_text) as TextView
             val badgeContainer =
                 textAndIconContainer.findViewById<View>(R.id.badge_container) as RelativeLayout
-            spaceItemIcon.setImageResource(spaceItems[i].itemIcon)
+            spaceItemIcon.setImageResource(spaceItems[i].itemUnActiveIcon)
             spaceItemText.text = spaceItems[i].itemName
             spaceItemText.setTextSize(TypedValue.COMPLEX_UNIT_PX, spaceItemTextSize.toFloat())
 
@@ -446,10 +446,12 @@ class SpaceNavigationView @JvmOverloads constructor(
              */
             if (spaceItems[i].isSelected) {
                 spaceItemText.setTextColor(activeSpaceItemColor)
-                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
+                spaceItemIcon.setImageResource(spaceItems[i].itemActiveIcon)
+//                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
             } else {
                 spaceItemText.setTextColor(inActiveSpaceItemColor)
-                Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor)
+                spaceItemIcon.setImageResource(spaceItems[i].itemUnActiveIcon)
+//                Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor)
             }
 
             textAndIconContainer.setOnClickListener {
@@ -524,7 +526,8 @@ class SpaceNavigationView @JvmOverloads constructor(
                 val spaceItemText =
                     textAndIconContainer.findViewById<View>(R.id.space_text) as TextView
                 spaceItemText.setTextColor(activeSpaceItemColor)
-                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
+                spaceItemIcon.setImageResource(spaceItems[i].itemActiveIcon)
+//                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
             }
             //if (i == currentSelectedItem)
             else  {
@@ -534,7 +537,8 @@ class SpaceNavigationView @JvmOverloads constructor(
                 val spaceItemText =
                     textAndIconContainer.findViewById<View>(R.id.space_text) as TextView
                 spaceItemText.setTextColor(inActiveSpaceItemColor)
-                Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor)
+                spaceItemIcon.setImageResource(spaceItems[i].itemUnActiveIcon)
+//                Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor)
             }
         }
 
@@ -619,7 +623,7 @@ class SpaceNavigationView @JvmOverloads constructor(
                     var spaceItem: SpaceItem?
                     for (i in 0 until changedItemAndIconHashMap!!.size) {
                         spaceItem = changedItemAndIconHashMap!![i]
-                        spaceItems[i].itemIcon = spaceItem!!.itemIcon
+                        spaceItems[i].itemActiveIcon = spaceItem!!.itemActiveIcon
                         spaceItems[i].itemName = spaceItem.itemName
                     }
                 }
@@ -1016,7 +1020,7 @@ class SpaceNavigationView @JvmOverloads constructor(
             val spaceItemIcon =
                 textAndIconContainer.findViewById<View>(R.id.space_icon) as ImageView
             spaceItemIcon.setImageResource(newIcon)
-            spaceItem.itemIcon = newIcon
+            spaceItem.itemActiveIcon = newIcon
             changedItemAndIconHashMap!![itemIndex] = spaceItem
         }
     }

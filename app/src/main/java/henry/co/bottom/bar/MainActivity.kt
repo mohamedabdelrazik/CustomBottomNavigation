@@ -1,7 +1,6 @@
 package henry.co.bottom.bar
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -16,14 +15,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val locale = Locale("ar")
-        Locale.setDefault(locale)
-        val config: Configuration = baseContext.resources.configuration
-        config.locale = locale
-        baseContext.resources.updateConfiguration(
-            config,
-            baseContext.resources.displayMetrics
-        )
+//        val locale = Locale("en")
+//        Locale.setDefault(locale)
+//        val config: Configuration = baseContext.resources.configuration
+//        config.locale = locale
+//        baseContext.resources.updateConfiguration(
+//            config,
+//            baseContext.resources.displayMetrics
+//        )
         initBottomNavigation(savedInstanceState)
     }
 
@@ -41,30 +40,34 @@ class MainActivity : AppCompatActivity() {
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                getStringRes(R.string.today),
-                R.drawable.near_me,
-                false
+                itemName = getStringRes(R.string.today),
+                itemUnActiveIcon = R.drawable.ic_k_none_active,
+                itemActiveIcon =  R.drawable.ic_k_active,
+                isSelected = false
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                getStringRes(R.string.favour),
-                R.drawable.near_me,
-                false
+                itemName = getStringRes(R.string.favour),
+                itemUnActiveIcon = R.drawable.ic_h_none_active,
+                itemActiveIcon =  R.drawable.ic_h_active,
+                isSelected = false
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                getStringRes(R.string.cards),
-                R.drawable.near_me,
-                false
+                itemName = getStringRes(R.string.cards),
+                itemUnActiveIcon = R.drawable.ic_o_none_active,
+                itemActiveIcon =  R.drawable.ic_o_active,
+                isSelected = false
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
-                getStringRes(R.string.account),
-                R.drawable.near_me,
-                true
+                itemName = getStringRes(R.string.account),
+                itemUnActiveIcon = R.drawable.ic_ac_none_active,
+                itemActiveIcon =  R.drawable.ic_ac_active,
+                isSelected = true
             )
         )
 
