@@ -236,7 +236,7 @@ class SpaceNavigationView @JvmOverloads constructor(
         rightContent?.elevation = 25f
 
         centreContent = buildBezierView()
-        centreContent?.elevation = 30f
+        centreContent?.elevation = 25f
 
 
 //        if (centreButtonId != NOT_DEFINED) {
