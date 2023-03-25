@@ -111,7 +111,8 @@ class SpaceNavigationView @JvmOverloads constructor(
             )
             spaceBackgroundColor = typedArray.getColor(
                 R.styleable.SpaceNavigationView_space_background_color,
-                ContextCompat.getColor(context, R.color.space_default_color))
+                ContextCompat.getColor(context, R.color.space_default_color)
+            )
             activeSpaceItemColor = typedArray.getColor(
                 R.styleable.SpaceNavigationView_active_item_color,
                 ContextCompat.getColor(context, R.color.space_white)
@@ -122,8 +123,10 @@ class SpaceNavigationView @JvmOverloads constructor(
             )
             isCentrePartLinear =
                 typedArray.getBoolean(R.styleable.SpaceNavigationView_centre_part_linear, false)
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            middleContent = inflater.inflate(R.layout.center_item_view, this, false) as RelativeLayout
+            val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            middleContent =
+                inflater.inflate(R.layout.center_item_view, this, false) as RelativeLayout
             typedArray.recycle()
         }
     }
@@ -233,7 +236,7 @@ class SpaceNavigationView @JvmOverloads constructor(
         rightContent?.elevation = 25f
 
         centreContent = buildBezierView()
-        centreContent?.elevation = 25f
+        centreContent?.elevation = 30f
 
 
 //        if (centreButtonId != NOT_DEFINED) {
@@ -299,8 +302,11 @@ class SpaceNavigationView @JvmOverloads constructor(
         middleContent!!.layoutParams = centre2ContentParams
         middleContent!!.elevation = 30f
         middleContent!!.setOnClickListener {
-            if (spaceOnClickListener != null)
+            if (spaceOnClickListener != null) {
+                isCentreButtonSelectable = true
                 spaceOnClickListener!!.onCentreButtonClick()
+                updateSpaceItems(-1)
+            }
 //            if (isCentreButtonSelectable) updateSpaceItems(-1)
         }
         addView(middleContent, centre2ContentParams)
@@ -438,7 +444,7 @@ class SpaceNavigationView @JvmOverloads constructor(
             /**
              * Changing current selected item tint
              */
-            if (i == currentSelectedItem) {
+            if (spaceItems[i].isSelected) {
                 spaceItemText.setTextColor(activeSpaceItemColor)
                 Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
             } else {
@@ -446,7 +452,9 @@ class SpaceNavigationView @JvmOverloads constructor(
                 Utils.changeImageViewTint(spaceItemIcon, inActiveSpaceItemColor)
             }
 
-            textAndIconContainer.setOnClickListener { updateSpaceItems(i) }
+            textAndIconContainer.setOnClickListener {
+                updateSpaceItems(i)
+            }
 
             textAndIconContainer.setOnLongClickListener {
                 if (spaceOnLongClickListener != null)
@@ -517,7 +525,9 @@ class SpaceNavigationView @JvmOverloads constructor(
                     textAndIconContainer.findViewById<View>(R.id.space_text) as TextView
                 spaceItemText.setTextColor(activeSpaceItemColor)
                 Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
-            } else if (i == currentSelectedItem) {
+            }
+            //if (i == currentSelectedItem)
+            else  {
                 val textAndIconContainer = spaceItemList[i] as RelativeLayout
                 val spaceItemIcon =
                     textAndIconContainer.findViewById<View>(R.id.space_icon) as ImageView
@@ -800,7 +810,7 @@ class SpaceNavigationView @JvmOverloads constructor(
         spaceItems.add(spaceItem)
     }
 
-    fun addMiddleItem(icon : Int , text : String){
+    fun addMiddleItem(icon: Int, text: String) {
         val image =
             middleContent?.findViewById<View>(R.id.center_space_icon) as ImageView
         val tv =

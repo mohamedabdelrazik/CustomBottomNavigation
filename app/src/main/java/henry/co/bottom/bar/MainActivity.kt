@@ -1,27 +1,29 @@
 package henry.co.bottom.bar
 
-import android.Manifest
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.core.view.isVisible
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import androidx.appcompat.app.AppCompatActivity
 import henry.co.bottom.navigtion.SpaceItem
 import henry.co.bottom.navigtion.SpaceOnClickListener
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val locale = Locale("ar")
+        Locale.setDefault(locale)
+        val config: Configuration = baseContext.resources.configuration
+        config.locale = locale
+        baseContext.resources.updateConfiguration(
+            config,
+            baseContext.resources.displayMetrics
+        )
         initBottomNavigation(savedInstanceState)
     }
 
@@ -32,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBottomNavigation(savedInstanceState: Bundle?) {
         spaceNavigationView.initWithSaveInstanceState(savedInstanceState)
-        spaceNavigationView.setCentreButtonSelectable(true)
 
         spaceNavigationView.addMiddleItem(
             icon = R.drawable.near_me,
@@ -41,25 +42,29 @@ class MainActivity : AppCompatActivity() {
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.today),
-                R.drawable.near_me
+                R.drawable.near_me,
+                false
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.favour),
-                R.drawable.near_me
+                R.drawable.near_me,
+                false
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.cards),
-                R.drawable.near_me
+                R.drawable.near_me,
+                false
             )
         )
         spaceNavigationView.addSpaceItem(
             SpaceItem(
                 getStringRes(R.string.account),
-                R.drawable.near_me
+                R.drawable.near_me,
+                true
             )
         )
 

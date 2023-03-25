@@ -9,10 +9,12 @@ class SpaceItem : Serializable {
     internal var itemName: String? = null
 
     internal var itemIcon: Int = 0
+    internal var isSelected: Boolean = false
 
-    constructor(itemName: String, itemIcon: Int) {
+    constructor(itemName: String, itemIcon: Int,isSelected : Boolean) {
         this.itemName = itemName
         this.itemIcon = itemIcon
+        this.isSelected = isSelected
     }
 
     constructor(id: Int, itemIcon: Int) {
@@ -20,7 +22,7 @@ class SpaceItem : Serializable {
         this.itemIcon = itemIcon
     }
 
-    constructor(id: Int, itemName: String, itemIcon: Int) : this(itemName, itemIcon) {
+    constructor(id: Int, itemName: String, itemIcon: Int,isSelected : Boolean) : this(itemName, itemIcon,isSelected) {
         this.id = id
     }
 }

@@ -16,6 +16,7 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/center_space_icon"
+            android:theme="@style/Circular"
             android:layout_width="@dimen/space_item_center_size"
             android:layout_height="@dimen/space_item_center_size" />
 
