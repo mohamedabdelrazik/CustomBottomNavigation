@@ -445,6 +445,7 @@ class SpaceNavigationView @JvmOverloads constructor(
              * Changing current selected item tint
              */
             if (spaceItems[i].isSelected) {
+                currentSelectedItem = i
                 spaceItemText.setTextColor(activeSpaceItemColor)
                 spaceItemIcon.setImageResource(spaceItems[i].itemActiveIcon)
 //                Utils.changeImageViewTint(spaceItemIcon, activeSpaceItemColor)
